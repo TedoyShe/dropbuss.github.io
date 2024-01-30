@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Recommendation Calculator</title>
+  <!-- Tailwind CSS -->
+  <style>
+    @import 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/base.min.css';
+    @import 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/components.min.css';
+    @import 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/utilities.min.css';
+
+    /* Custom styles go here */
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+	<!-- Navigation -->
+	<nav class="bg-green-500 p-4">
+		<div class="container mx-auto flex justify-between items-center">
+			<a href="#" class="text-white text-2xl font-semibold">DropBuss Development</a>
+			<div class="space-x-4">
+				<a href="index.html" class="text-white">Home</a>
+				<a href="Fastplanning.html" class="text-white">Fast Planning</a>
+			</div>
+		</div>
+	</nav>
+
+  <div class="container mx-auto p-4 flex flex-wrap">
+	<div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0">
+		<h1 class="text-2xl font-bold mb-4">Business Recommendation Calculator</h1>
+		<form id="recommendationForm" class="mb-4">
+		  <div class="mb-4">
+			<label for="modalPrice" class="block text-sm font-medium text-gray-600">Capital Cost per Pcs :</label>
+			<input type="number" id="modalPrice" class="mt-1 p-2 border rounded w-full" required>
+		  </div>
+		  <div class="mb-4">
+			<label for="employeeCost" class="block text-sm font-medium text-gray-600">Employee Costs (per month) :</label>
+			<input type="number" id="employeeCost" class="mt-1 p-2 border rounded w-full" required>
+		  </div>
+		  <div class="mb-4">
+			<label for="numEmployees" class="block text-sm font-medium text-gray-600">Employee Number :</label>
+			<input type="number" id="numEmployees" class="mt-1 p-2 border rounded w-full" required>
+		  </div>
+		  <div class="mb-4">
+			<label for="profitPercentage" class="block text-sm font-medium text-gray-600">Percentage of Net Profit :</label>
+			<select id="profitPercentage" class="mt-1 p-2 border rounded w-full" required>
+			  <!-- Mulai dari 5% hingga 100% dengan kelipatan 5% -->
+			  <script>
+				for (let i = 5; i <= 100; i += 5) {
+				  document.write(`<option value="${i}">${i}%</option>`);
+				}
+			  </script>
+			</select>
+		  </div>
+		  <div class="mb-4">
+			<label for="workschedule" class="block text-sm font-medium text-gray-600">Total works in 1 week :</label>
+			<select id="workschedule" class="mt-1 p-2 border rounded w-full" required>
+			  <option value="1">1 Day</option>
+			  <script>
+				for (let i = 2; i <= 7; i += 1) {
+				  document.write(`<option value="${i}">${i} Days</option>`);
+				}
+			  </script>
+			</select>
+		  </div>
+		  <div class="mb-4">
+			<label for="targetIncome" class="block text-sm font-medium text-gray-600">Income Target (per month) :</label>
+			<input type="number" id="targetIncome" class="mt-1 p-2 border rounded w-full" required>
+		  </div>
+		  <button type="submit" class="bg-blue-500 text-white px-4 py-2">Hitung</button>
+		</form>
+	</div>
+	
+	<div class="w-full md:w-1/2 lg:w-2/3 xl:w-3/4 mb-4 md:mb-0">
+		<div id="result" class="mt-4">
+			<h1 class="text-lg font-bold mb-2">MONTHLY RECAPITULATION</h1>
+			<h2 class="text-lg font-bold mb-2">Product Sale Price</h2>
+		  <p>Capital Cost : Rp. <span id="modalPriceResult"></span>/Pcs</p>
+		  <p>profit       : Rp. <span id="profitResult"></span>/Pcs (<span id="profitPercentageResult"></span>)</p>
+		  <p>Sale Price   : Rp. <span id="totalPriceResult"></span>/Pcs</p>
+
+		  <h2 class="text-lg font-bold mt-4 mb-2">Employee</h2>
+		  <p>Total  : <span id="numEmployeesResult"></span></p>
+		  <p>Salary : Rp. <span id="employeeCostResult"></span>/Employee (Monthly)</p>
+		  <p>Salary : Rp. <span id="employeeCostResultDay"></span>/Employee (Dayly)</p>
+
+		  <h2 class="text-lg font-bold mt-4 mb-2">Planning</h2>
+		  <p>Income     : Rp. <span id="targetIncomeResult"></span></p>
+		  <p>Total pcs : <span id="minDailySalesResult"></span>/Day (Minimum Target)</p>
+		  <p>Works Time  : <span id="workscheduleResult"></span>/Week</p>
+		  <p>Works Time  : <span id="totalworkscheduleResult"></span>/Month</p>
+		  
+		  <h2 class="text-lg font-bold mt-4 mb-2">Total Money Needs</h2>
+		  <p>Daily Money Needs  : Rp. <span id="DailyMoneyNeedsResult"></span></p>
+		  <p>Weekly Money Needs : Rp. <span id="WeeklyMoneyNeedsResult"></span></p>
+		  <p>Monthly Money Needs: Rp. <span id="MonthlyMoneyNeedsResult"></span></p>
+		</div>
+	 </div>
+  </div>
+
+  <script>
+    document.getElementById('recommendationForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      // Ambil nilai input dari form
+      const workschedule = parseFloat(document.getElementById('workschedule').value);
+      const modalPrice = parseFloat(document.getElementById('modalPrice').value);
+      const employeeCost = parseFloat(document.getElementById('employeeCost').value);
+      const numEmployees = parseInt(document.getElementById('numEmployees').value);
+      const profitPercentage = parseFloat(document.getElementById('profitPercentage').value);
+      const targetIncome = parseFloat(document.getElementById('targetIncome').value);
+
+      // Lakukan perhitungan
+      const totalworkschedule = workschedule * 4;
+      const employeeCostDay = employeeCost / totalworkschedule;
+      const totalPrice = modalPrice + (modalPrice * profitPercentage / 100);
+      const profit = modalPrice * profitPercentage / 100;
+      const minDailySales = Math.ceil((((employeeCost * numEmployees)  + targetIncome) / profit) / totalworkschedule);
+	  
+	  const DailyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales);
+	  const WeeklyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales) * workschedule;
+	  const MonthlyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales) * totalworkschedule;
+
+      // Tampilkan hasil perhitungan
+      document.getElementById('modalPriceResult').textContent = modalPrice.toFixed(0);
+      document.getElementById('profitResult').textContent = profit.toFixed(0);
+      document.getElementById('profitPercentageResult').textContent = profitPercentage + '%';
+      document.getElementById('totalPriceResult').textContent = totalPrice.toFixed(0);
+
+      document.getElementById('numEmployeesResult').textContent = numEmployees;
+      document.getElementById('employeeCostResult').textContent = employeeCost.toFixed(0);
+      document.getElementById('employeeCostResultDay').textContent = employeeCostDay.toFixed(0);
+
+      document.getElementById('targetIncomeResult').textContent = targetIncome.toFixed(0);
+      document.getElementById('minDailySalesResult').textContent = minDailySales;
+      document.getElementById('workscheduleResult').textContent = workschedule;
+      document.getElementById('totalworkscheduleResult').textContent = totalworkschedule;
+	  
+	  document.getElementById('DailyMoneyNeedsResult').textContent = DailyMoneyNeeds.toFixed(0);
+      document.getElementById('WeeklyMoneyNeedsResult').textContent = WeeklyMoneyNeeds.toFixed(0);
+      document.getElementById('MonthlyMoneyNeedsResult').textContent = MonthlyMoneyNeeds.toFixed(0);
+    });
+  </script>
+  
+</body>
+</html>
