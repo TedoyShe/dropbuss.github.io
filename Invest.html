@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Recommendation Calculator</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: #28a745;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+        .py-16 {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-description {
+            color: #495057;
+        }
+
+        .btn-get-started {
+            font-size: 1.25rem;
+            padding: 0.75rem 2rem;
+        }
+
+        .scroll-down-arrow {
+            font-size: 2rem;
+            margin-top: 1rem;
+            color: #28a745;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+  
+</head>
+<body class="bg-light">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+		<img src="db.png" width="150px">
+    <div class="container">
+      <a class="navbar-brand" href="#">DropBuss Development</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Fastplanning.html">Fast Planning</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Invest.html">Investment</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="display-4 mb-4">Investment</h1>
+        <div class="mb-3">
+          <label class="form-label">Choose Investment Type:</label>
+          <select id="investmentType" name="investmentType" class="form-select">
+            <option value="gold">Gold</option>
+            <option value="forex" disabled>Forex (Coming Soon)</option>
+          </select>
+        </div>
+        
+        <div id="goldForm" class="hidden">
+          <label class="form-label">Enter High Value:</label>
+          <input id="highValue" type="number" class="form-control" placeholder="High Value">
+
+          <label class="form-label mt-3">Enter Low Value:</label>
+          <input id="lowValue" type="number" class="form-control" placeholder="Low Value">
+
+          <button onclick="calculate()" class="btn btn-primary mt-3">Calculate</button>
+        </div>
+
+        <div id="result" class="hidden mt-4">
+		  <h2 class="h4 font-weight-bold mb-2">Calculation Result:</h2>
+		  <p id="pointMovement"></p>
+		  <p id="highToday"></p>
+		  <p id="lowToday"></p>
+		  <p id="percentage" class="font-weight-bold">Percentage:</p>
+		  <ul class="list-group">
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+			  100%
+			  <span class="badge bg-primary rounded-pill" id="percentage100"></span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+			  75%
+			  <span class="badge bg-info rounded-pill" id="percentage75"></span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+			  50%
+			  <span class="badge bg-warning rounded-pill" id="percentage50"></span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+			  25%
+			  <span class="badge bg-secondary rounded-pill" id="percentage25"></span>
+			</li>
+		  </ul>
+		</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (Popper.js and Bootstrap JS) -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	
+	<!-- jQuery (diperlukan untuk Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Bootstrap JS and dependencies -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script>
+    function calculate() {
+      const highValue = parseFloat(document.getElementById('highValue').value);
+      const lowValue = parseFloat(document.getElementById('lowValue').value);
+      
+      let pointMovement;
+
+      if((highValue - lowValue) > 30){
+        pointMovement = (highValue - lowValue) - 30;
+      }
+      else {
+        pointMovement = 30 - (highValue - lowValue);
+      }
+      
+      const highToday = (lowValue + pointMovement) ;
+      const lowToday = (highValue - pointMovement);
+
+      const percentage100 = highToday * 1;
+      const percentage75 = Math.floor((highToday - 2000) * 0.75 + 2000);
+      const percentage50 = Math.floor((highToday - 2000) * 0.5 + 2000);
+      const percentage25 = Math.floor((highToday - 2000) * 0.25 + 2000);
+
+      document.getElementById('pointMovement').innerText = `Point Movement: ${pointMovement}`;
+      document.getElementById('highToday').innerText = `High Today: ${highToday}`;
+      document.getElementById('lowToday').innerText = `Low Today: ${lowToday}`;
+	  
+	  document.getElementById('percentage100').innerText = `${percentage100}`;
+		document.getElementById('percentage75').innerText = `${percentage75}`;
+		document.getElementById('percentage50').innerText = `${percentage50}`;
+		document.getElementById('percentage25').innerText = `${percentage25}`;
+
+      // Show the result section
+      document.getElementById('result').classList.remove('hidden');
+    }
+
+    document.getElementById('investmentType').addEventListener('change', function () {
+      const goldForm = document.getElementById('goldForm');
+      if (this.value === 'gold') {
+        goldForm.classList.remove('hidden');
+      } else {
+        goldForm.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

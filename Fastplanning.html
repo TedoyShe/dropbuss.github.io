@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Recommendation Calculator</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: #28a745;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+        .py-16 {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-description {
+            color: #495057;
+        }
+
+        .btn-get-started {
+            font-size: 1.25rem;
+            padding: 0.75rem 2rem;
+        }
+
+        .scroll-down-arrow {
+            font-size: 2rem;
+            margin-top: 1rem;
+            color: #28a745;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+  
+</head>
+<body class="bg-light">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+		<img src="db.png" width="150px">
+    <div class="container">
+      <a class="navbar-brand" href="#">DropBuss Development</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Fastplanning.html">Fast Planning</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Invest.html">Investment</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="display-4 mb-4">Business Recommendation Calculator</h1>
+        <form id="recommendationForm" class="mb-4">
+          <div class="mb-4">
+            <label for="modalPrice" class="form-label">Capital Cost per Pcs :</label>
+            <input type="number" id="modalPrice" class="form-control" required>
+          </div>
+          <div class="mb-4">
+            <label for="employeeCost" class="form-label">Employee Costs (per month) :</label>
+            <input type="number" id="employeeCost" class="form-control" required>
+          </div>
+          <div class="mb-4">
+            <label for="numEmployees" class="form-label">Employee Number :</label>
+            <input type="number" id="numEmployees" class="form-control" required>
+          </div>
+          <div class="mb-4">
+            <label for="profitPercentage" class="form-label">Percentage of Net Profit :</label>
+            <select id="profitPercentage" class="form-select" required>
+              <!-- Mulai dari 5% hingga 100% dengan kelipatan 5% -->
+              <script>
+                for (let i = 5; i <= 100; i += 5) {
+                  document.write(`<option value="${i}">${i}%</option>`);
+                }
+              </script>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="workschedule" class="form-label">Total works in 1 week :</label>
+            <select id="workschedule" class="form-select" required>
+              <option value="1">1 Day</option>
+              <script>
+                for (let i = 2; i <= 7; i += 1) {
+                  document.write(`<option value="${i}">${i} Days</option>`);
+                }
+              </script>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="targetIncome" class="form-label">Income Target (per month) :</label>
+            <input type="number" id="targetIncome" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Hitung</button>
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        <div id="result" class="mt-4">
+          <h1 class="text-lg font-bold mb-2">MONTHLY RECAPITULATION</h1>
+          <h2 class="text-lg font-bold mb-2">Product Sale Price</h2>
+          <p>Capital Cost : Rp. <span id="modalPriceResult"></span>/Pcs</p>
+          <p>profit : Rp. <span id="profitResult"></span>/Pcs (<span id="profitPercentageResult"></span>)</p>
+          <p>Sale Price : Rp. <span id="totalPriceResult"></span>/Pcs</p>
+
+          <h2 class="text-lg font-bold mt-4 mb-2">Employee</h2>
+          <p>Total : <span id="numEmployeesResult"></span></p>
+          <p>Salary : Rp. <span id="employeeCostResult"></span>/Employee (Monthly)</p>
+          <p>Salary : Rp. <span id="employeeCostResultDay"></span>/Employee (Daily)</p>
+
+          <h2 class="text-lg font-bold mt-4 mb-2">Planning</h2>
+          <p>Income : Rp. <span id="targetIncomeResult"></span></p>
+          <p>Total pcs : <span id="minDailySalesResult"></span>/Day (Minimum Target)</p>
+          <p>Works Time : <span id="workscheduleResult"></span>/Week</p>
+          <p>Works Time : <span id="totalworkscheduleResult"></span>/Month</p>
+
+          <h2 class="text-lg font-bold mt-4 mb-2">Total Money Needs</h2>
+          <p>Daily Money Needs : Rp. <span id="DailyMoneyNeedsResult"></span></p>
+          <p>Weekly Money Needs : Rp. <span id="WeeklyMoneyNeedsResult"></span></p>
+          <p>Monthly Money Needs: Rp. <span id="MonthlyMoneyNeedsResult"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (Popper.js and Bootstrap JS) -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <!-- jQuery (diperlukan untuk Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Bootstrap JS and dependencies -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script>
+    document.getElementById('recommendationForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      // Ambil nilai input dari form
+      const workschedule = parseFloat(document.getElementById('workschedule').value);
+      const modalPrice = parseFloat(document.getElementById('modalPrice').value);
+      const employeeCost = parseFloat(document.getElementById('employeeCost').value);
+      const numEmployees = parseInt(document.getElementById('numEmployees').value);
+      const profitPercentage = parseFloat(document.getElementById('profitPercentage').value);
+      const targetIncome = parseFloat(document.getElementById('targetIncome').value);
+
+      // Lakukan perhitungan
+      const totalworkschedule = workschedule * 4;
+      const employeeCostDay = employeeCost / totalworkschedule;
+      const totalPrice = modalPrice + (modalPrice * profitPercentage / 100);
+      const profit = modalPrice * profitPercentage / 100;
+      const minDailySales = Math.ceil((((employeeCost * numEmployees)  + targetIncome) / profit) / totalworkschedule);
+      
+      const DailyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales);
+      const WeeklyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales) * workschedule;
+      const MonthlyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales) * totalworkschedule;
+
+      // Tampilkan hasil perhitungan
+      document.getElementById('modalPriceResult').textContent = modalPrice.toFixed(0);
+      document.getElementById('profitResult').textContent = profit.toFixed(0);
+      document.getElementById('profitPercentageResult').textContent = profitPercentage + '%';
+      document.getElementById('totalPriceResult').textContent = totalPrice.toFixed(0);
+
+      document.getElementById('numEmployeesResult').textContent = numEmployees;
+      document.getElementById('employeeCostResult').textContent = employeeCost.toFixed(0);
+      document.getElementById('employeeCostResultDay').textContent = employeeCostDay.toFixed(0);
+
+      document.getElementById('targetIncomeResult').textContent = targetIncome.toFixed(0);
+      document.getElementById('minDailySalesResult').textContent = minDailySales;
+      document.getElementById('workscheduleResult').textContent = workschedule;
+      document.getElementById('totalworkscheduleResult').textContent = totalworkschedule;
+      
+      document.getElementById('DailyMoneyNeedsResult').textContent = DailyMoneyNeeds.toFixed(0);
+      document.getElementById('WeeklyMoneyNeedsResult').textContent = WeeklyMoneyNeeds.toFixed(0);
+      document.getElementById('MonthlyMoneyNeedsResult').textContent = MonthlyMoneyNeeds.toFixed(0);
+    });
+  </script>
+  
+</body>
+</html>
