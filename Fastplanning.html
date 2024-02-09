@@ -199,9 +199,9 @@
       const profit = modalPrice * profitPercentage / 100;
       const minDailySales = Math.ceil((((employeeCost * numEmployees)  + targetIncome) / profit) / totalworkschedule);
       
-      const DailyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales);
-      const WeeklyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales) * workschedule;
-      const MonthlyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales) * totalworkschedule;
+      const DailyMoneyNeeds = Math.ceil((employeeCostDay * numEmployees) + (modalPrice * minDailySales));
+      const WeeklyMoneyNeeds = Math.ceil((employeeCostDay * numEmployees) + (modalPrice * minDailySales) * workschedule);
+      const MonthlyMoneyNeeds = Math.ceil((employeeCostDay * numEmployees) + (modalPrice * minDailySales) * totalworkschedule);
 
       // Tampilkan hasil perhitungan
       document.getElementById('modalPriceResult').textContent = modalPrice.toLocaleString('id-ID');
