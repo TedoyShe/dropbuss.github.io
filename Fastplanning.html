@@ -101,15 +101,8 @@
             <label for="modalPrice" class="form-label">Capital Cost per Pcs :</label>
             <input type="number" id="modalPrice" class="form-control" required>
           </div>
-          <div class="mb-4">
-            <label for="employeeCost" class="form-label">Employee Costs (per month) :</label>
-            <input type="number" id="employeeCost" class="form-control" required>
-          </div>
-          <div class="mb-4">
-            <label for="numEmployees" class="form-label">Employee Number :</label>
-            <input type="number" id="numEmployees" class="form-control" required>
-          </div>
-          <div class="mb-4">
+	
+	  <div class="mb-4">
             <label for="profitPercentage" class="form-label">Percentage of Net Profit :</label>
             <select id="profitPercentage" class="form-select" required>
               <!-- Mulai dari 5% hingga 100% dengan kelipatan 5% -->
@@ -120,6 +113,17 @@
               </script>
             </select>
           </div>
+		
+          <div class="mb-4">
+            <label for="employeeCost" class="form-label">Employee Costs (per month) :</label>
+            <input type="number" id="employeeCost" class="form-control" required>
+          </div>
+		
+          <div class="mb-4">
+            <label for="numEmployees" class="form-label">Employee Number :</label>
+            <input type="number" id="numEmployees" class="form-control" required>
+          </div>
+          
           <div class="mb-4">
             <label for="workschedule" class="form-label">Total works in 1 week :</label>
             <select id="workschedule" class="form-select" required>
@@ -131,11 +135,12 @@
               </script>
             </select>
           </div>
+		
           <div class="mb-4">
             <label for="targetIncome" class="form-label">Profit Targets(per month) :</label>
             <input type="number" id="targetIncome" class="form-control" required>
           </div>
-          <button type="submit" class="btn btn-primary">Hitung</button>
+          <button type="submit" class="btn btn-primary">Calculate</button>
         </form>
       </div>
 
@@ -199,23 +204,23 @@
       const MonthlyMoneyNeeds = (employeeCostDay * numEmployees) + (modalPrice * minDailySales) * totalworkschedule;
 
       // Tampilkan hasil perhitungan
-      document.getElementById('modalPriceResult').textContent = modalPrice.toFixed(0);
-      document.getElementById('profitResult').textContent = profit.toFixed(0);
+      document.getElementById('modalPriceResult').textContent = modalPrice.toLocaleString('id-ID');
+      document.getElementById('profitResult').textContent = profit.toLocaleString('id-ID');
       document.getElementById('profitPercentageResult').textContent = profitPercentage + '%';
-      document.getElementById('totalPriceResult').textContent = totalPrice.toFixed(0);
+      document.getElementById('totalPriceResult').textContent = totalPrice.toLocaleString('id-ID');
 
       document.getElementById('numEmployeesResult').textContent = numEmployees;
-      document.getElementById('employeeCostResult').textContent = employeeCost.toFixed(0);
-      document.getElementById('employeeCostResultDay').textContent = employeeCostDay.toFixed(0);
+      document.getElementById('employeeCostResult').textContent = employeeCost.toLocaleString('id-ID');
+      document.getElementById('employeeCostResultDay').textContent = employeeCostDay.toLocaleString('id-ID');
 
-      document.getElementById('targetIncomeResult').textContent = targetIncome.toFixed(0);
+      document.getElementById('targetIncomeResult').textContent = targetIncome.toLocaleString('id-ID');
       document.getElementById('minDailySalesResult').textContent = minDailySales;
       document.getElementById('workscheduleResult').textContent = workschedule;
       document.getElementById('totalworkscheduleResult').textContent = totalworkschedule;
       
-      document.getElementById('DailyMoneyNeedsResult').textContent = DailyMoneyNeeds.toFixed(0);
-      document.getElementById('WeeklyMoneyNeedsResult').textContent = WeeklyMoneyNeeds.toFixed(0);
-      document.getElementById('MonthlyMoneyNeedsResult').textContent = MonthlyMoneyNeeds.toFixed(0);
+      document.getElementById('DailyMoneyNeedsResult').textContent = DailyMoneyNeeds.toLocaleString('id-ID');
+      document.getElementById('WeeklyMoneyNeedsResult').textContent = WeeklyMoneyNeeds.toLocaleString('id-ID');
+      document.getElementById('MonthlyMoneyNeedsResult').textContent = MonthlyMoneyNeeds.toLocaleString('id-ID');
     });
   </script>
   
